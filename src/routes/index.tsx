@@ -1,24 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { ArrowRight, Check, Heart, Menu, PawPrint, ShieldCheck, Sparkles, Star, Stethoscope, X } from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
+export const Route = createFileRoute("/")({ component: Index });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const services = [
+  { icon: Stethoscope, title: "Saúde & Bem-estar", text: "Cuidados, prevenção e acompanhamento para uma vida mais saudável." },
+  { icon: Heart, title: "Amor em cada detalhe", text: "Soluções pensadas para fortalecer o vínculo entre você e seu pet." },
+  { icon: ShieldCheck, title: "Confiança e segurança", text: "Produtos e serviços selecionados pensando primeiro no bem-estar animal." },
+];
+const testimonials = [
+  { name: "Marina Alves", pet: "Tutora da Mel", text: "Encontrei tudo o que precisava e a experiência foi incrível. A Mel amou!", avatar: "MA" },
+  { name: "Rafael Costa", pet: "Tutor do Thor", text: "Finalmente um lugar que entende que pet faz parte da família. Recomendo demais.", avatar: "RC" },
+  { name: "Camila Rocha", pet: "Tutora da Luna", text: "Atendimento cuidadoso, bonito e super fácil de usar. Virou meu favorito.", avatar: "CR" },
+];
+
 function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const scrollTo = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen overflow-x-hidden bg-[#fffaf5] text-[#26342b] selection:bg-[#dff3d9] selection:text-[#244b2c]">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[#dce8dc]/70 bg-[#fffaf5]/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+          <button onClick={() => scrollTo("inicio")} className="flex items-center gap-2.5 font-black tracking-tight"><span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#4d9b52] text-white shadow-lg shadow-[#4d9b52]/20"><PawPrint className="h-5 w-5" /></span><span className="text-xl">Pet<span className="text-[#4d9b52]">Love</span></span></button>
+          <nav className="hidden items-center gap-8 md:flex"><button onClick={() => scrollTo("inicio")} className="text-sm font-semibold text-[#4d9b52]">Início</button><button onClick={() => scrollTo("beneficios")} className="text-sm font-medium text-[#627067] transition hover:text-[#4d9b52]">Por que nós?</button><button onClick={() => scrollTo("depoimentos")} className="text-sm font-medium text-[#627067] transition hover:text-[#4d9b52]">Depoimentos</button><button onClick={() => scrollTo("contato")} className="text-sm font-medium text-[#627067] transition hover:text-[#4d9b52]">Contato</button></nav>
+          <button onClick={() => scrollTo("contato")} className="hidden rounded-full bg-[#4d9b52] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#4d9b52]/20 transition hover:-translate-y-0.5 hover:bg-[#3f8445] sm:block">Quero conhecer <ArrowRight className="ml-1 inline h-4 w-4" /></button>
+          <button aria-label="Abrir menu" onClick={() => setMenuOpen(!menuOpen)} className="rounded-xl p-2 md:hidden">{menuOpen ? <X /> : <Menu />}</button>
+        </div>
+        {menuOpen && <div className="border-t border-[#dce8dc] bg-[#fffaf5] px-6 py-5 md:hidden"><div className="flex flex-col gap-4"><button onClick={() => scrollTo("inicio")} className="text-left font-semibold">Início</button><button onClick={() => scrollTo("beneficios")} className="text-left font-semibold">Por que nós?</button><button onClick={() => scrollTo("depoimentos")} className="text-left font-semibold">Depoimentos</button><button onClick={() => scrollTo("contato")} className="text-left font-semibold">Contato</button></div></div>}
+      </header>
+
+      <section id="inicio" className="relative isolate min-h-[720px] overflow-hidden pt-[76px]">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_80%_25%,#e8f6df_0,transparent_35%),linear-gradient(135deg,#fffaf5_0%,#f4f8ee_100%)]" />
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1fr_0.95fr] lg:px-10 lg:py-24">
+          <div className="max-w-2xl"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#cfe5cf] bg-white/80 px-4 py-2 text-sm font-bold text-[#4d7d51] shadow-sm"><Sparkles className="h-4 w-4" /> Tudo para quem ama de verdade</div><h1 className="text-5xl font-black leading-[1.02] tracking-[-0.045em] sm:text-6xl lg:text-7xl">Seu pet merece uma vida <span className="text-[#4d9b52]">cheia de amor.</span></h1><p className="mt-7 max-w-xl text-lg leading-8 text-[#68746d] sm:text-xl">Um espaço feito para cuidar, mimar e celebrar os melhores momentos ao lado do seu melhor amigo.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><button onClick={() => scrollTo("beneficios")} className="rounded-full bg-[#4d9b52] px-7 py-4 font-bold text-white shadow-xl shadow-[#4d9b52]/25 transition hover:-translate-y-1 hover:bg-[#3f8445]">Descobrir PetLove <ArrowRight className="ml-2 inline h-5 w-5" /></button><button onClick={() => scrollTo("depoimentos")} className="rounded-full border border-[#cddbcf] bg-white px-7 py-4 font-bold text-[#3f6044] transition hover:bg-[#f3f8f0]">Ver histórias reais</button></div><div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold text-[#6a756d]"><span><Check className="mr-1 inline h-4 w-4 text-[#4d9b52]" />Cuidado de verdade</span><span><Check className="mr-1 inline h-4 w-4 text-[#4d9b52]" />Experiência simples</span><span><Check className="mr-1 inline h-4 w-4 text-[#4d9b52]" />Feito para pets</span></div></div>
+          <div className="relative mx-auto w-full max-w-[590px]"><div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-[#f3c77b]/40 blur-2xl" /><div className="absolute -bottom-7 -left-7 h-40 w-40 rounded-full bg-[#9ed69e]/50 blur-3xl" /><div className="relative overflow-hidden rounded-[38px] border-[10px] border-white bg-white shadow-2xl shadow-[#354c38]/15"><img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1000&q=85" alt="Cachorro feliz recebendo carinho" className="aspect-[4/4.4] w-full object-cover" /><div className="absolute bottom-6 left-6 right-6 rounded-3xl border border-white/60 bg-white/90 p-4 shadow-xl backdrop-blur"><div className="flex items-center gap-3"><span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#e7f4e4] text-[#4d9b52]"><Heart className="h-5 w-5 fill-current" /></span><div><p className="font-black">Mais amor, todos os dias.</p><p className="text-sm text-[#707b74]">Porque eles merecem o melhor.</p></div></div></div></div></div>
+        </div>
+      </section>
+
+      <section id="beneficios" className="bg-white px-5 py-20 sm:px-8 lg:px-10 lg:py-28"><div className="mx-auto max-w-7xl"><div className="mx-auto max-w-2xl text-center"><span className="text-sm font-black uppercase tracking-[0.18em] text-[#4d9b52]">Feito com carinho</span><h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Tudo começa pelo bem-estar deles.</h2><p className="mt-5 text-lg leading-8 text-[#718078]">Mais do que um serviço, criamos uma experiência acolhedora para tutores e pets.</p></div><div className="mt-14 grid gap-6 md:grid-cols-3">{services.map(({ icon: Icon, title, text }) => <article key={title} className="group rounded-[28px] border border-[#e4ebe2] bg-[#fbfdf9] p-8 transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#4d9b52]/10"><span className="mb-7 grid h-14 w-14 place-items-center rounded-2xl bg-[#e6f4e2] text-[#4d9b52] transition group-hover:bg-[#4d9b52] group-hover:text-white"><Icon className="h-7 w-7" /></span><h3 className="text-xl font-black">{title}</h3><p className="mt-3 leading-7 text-[#718078]">{text}</p><button onClick={() => scrollTo("contato")} className="mt-6 font-bold text-[#4d9b52]">Saiba mais <ArrowRight className="ml-1 inline h-4 w-4" /></button></article>)}</div></div></section>
+
+      <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-24"><div className="mx-auto grid max-w-7xl items-center gap-12 overflow-hidden rounded-[40px] bg-[#315b37] px-7 py-12 text-white sm:px-12 lg:grid-cols-[1.05fr_.95fr] lg:px-16 lg:py-16"><div><span className="text-sm font-black uppercase tracking-[0.18em] text-[#bde3b8]">Uma comunidade de verdade</span><h2 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">Porque ser tutor é uma das melhores partes da vida.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-white/75">Conte com um espaço que compartilha a mesma paixão que você: ver seu pet saudável, feliz e cheio de energia.</p><div className="mt-8 flex items-center gap-5"><div className="flex -space-x-3">{[47,12,32,5].map(img => <img key={img} src={`https://i.pravatar.cc/80?img=${img}`} className="h-11 w-11 rounded-full border-2 border-[#315b37] object-cover" alt="Tutor da comunidade" />)}</div><div><p className="font-black">+2.000 tutores</p><p className="text-sm text-white/65">já fazem parte</p></div></div></div><div className="relative hidden lg:block"><div className="absolute inset-8 rounded-full bg-[#9fd79b]/20 blur-3xl" /><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=85" alt="Dois cachorros brincando juntos" className="relative aspect-[4/3] w-full rounded-[30px] object-cover shadow-2xl" /></div></div></section>
+
+      <section id="depoimentos" className="bg-[#f5f8f2] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"><div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><span className="text-sm font-black uppercase tracking-[0.18em] text-[#4d9b52]">Quem vive, conta</span><h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Histórias que aquecem o coração.</h2></div><div className="flex items-center gap-1 text-[#e6ad47]">{Array.from({length:5}).map((_,i)=><Star key={i} className="h-5 w-5 fill-current" />)}<span className="ml-2 font-black text-[#5e6c62]">4,9/5</span></div></div><div className="mt-12 grid gap-5 md:grid-cols-3">{testimonials.map(t => <article key={t.name} className="rounded-[28px] bg-white p-7 shadow-sm"><div className="flex gap-1 text-[#e6ad47]">{Array.from({length:5}).map((_,i)=><Star key={i} className="h-4 w-4 fill-current" />)}</div><p className="mt-5 text-[17px] leading-8 text-[#5f6b63]">“{t.text}”</p><div className="mt-7 flex items-center gap-3 border-t border-[#edf1eb] pt-5"><div className="grid h-11 w-11 place-items-center rounded-full bg-[#e5f2e1] text-sm font-black text-[#4d9b52]">{t.avatar}</div><div><p className="font-black">{t.name}</p><p className="text-sm text-[#87918a]">{t.pet}</p></div></div></article>)}</div></div></section>
+
+      <section id="contato" className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28"><div className="mx-auto max-w-5xl rounded-[40px] bg-white px-7 py-12 text-center shadow-xl shadow-[#3b553d]/10 ring-1 ring-[#e4ebe2] sm:px-12 lg:py-16"><span className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-[#e7f4e4] text-[#4d9b52]"><PawPrint className="h-8 w-8" /></span><h2 className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">Vamos cuidar de quem cuida de você.</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#718078]">Quer conhecer melhor a PetLove? Fale com a gente e descubra como podemos fazer parte da rotina do seu melhor amigo.</p><button onClick={() => window.location.href = "mailto:contato@petlove.com.br?subject=Quero conhecer a PetLove"} className="mt-8 rounded-full bg-[#4d9b52] px-8 py-4 font-black text-white shadow-xl shadow-[#4d9b52]/20 transition hover:-translate-y-1 hover:bg-[#3f8445]">Falar com a PetLove <ArrowRight className="ml-2 inline h-5 w-5" /></button></div></section>
+      <footer className="border-t border-[#dfe8dc] bg-[#f7faf4] px-5 py-10 sm:px-8 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row sm:items-center"><div className="flex items-center gap-2 font-black"><span className="grid h-9 w-9 place-items-center rounded-xl bg-[#4d9b52] text-white"><PawPrint className="h-4 w-4" /></span>Pet<span className="text-[#4d9b52]">Love</span></div><p className="text-sm text-[#7b877e]">Feito com carinho para quem ama sem medida. ♥</p><p className="text-xs text-[#9aa39d]">© {new Date().getFullYear()} PetLove</p></div></footer>
+    </main>
   );
 }
